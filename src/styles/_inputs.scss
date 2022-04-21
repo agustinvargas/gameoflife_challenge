@@ -1,0 +1,22 @@
+.content-select {
+  max-width: 250px;
+  margin-bottom: 25px;
+  & select {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    cursor: pointer;
+    padding: 7px 10px;
+    height: 40px;
+    outline: 0;
+    background: $light-color;
+    color: $dark-color;
+    border: 1px solid $dark-color;
+    border-radius: 5px;
+    transition: all 0.25s ease;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}

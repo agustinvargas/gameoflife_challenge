@@ -1,0 +1,18 @@
+.icon {
+  & > svg {
+    cursor: pointer;
+    font-size: 1.8rem;
+    color: $light-color;
+    &:hover {
+      opacity: 0.5;
+      transition: opacity 0.4s ease-in-out;
+    }
+  }
+}
+
+.icon-big {
+  @extend .icon;
+  & > svg {
+    font-size: 5.7rem;
+  }
+}

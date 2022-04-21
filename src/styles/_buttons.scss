@@ -1,0 +1,37 @@
+@mixin btn($bg, $color: $light-color) {
+  font-family: $primary-font;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  padding: 10px 17px;
+  border-radius: 20px;
+  border: 0px;
+  min-width: min-content;
+  outline: none;
+  background: $bg;
+  color: $color;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  gap: 6px;
+  font-weight: 700;
+  &:hover {
+    opacity: 0.9;
+  }
+  &[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.btn-success {
+  @include btn($success-color);
+}
+
+.btn-danger {
+  @include btn($danger-color);
+}
+
+.btn-warning {
+  @include btn($warning-color, $dark-color);
+}
