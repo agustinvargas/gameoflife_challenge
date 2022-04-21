@@ -3,14 +3,17 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import BoardCtx from './contexts/BoardCtx';
-import './styles/normalize.css';
+import ModalCtx from './contexts/ModalCtx';
+import './styles/normalize.css'; // Firts normalize the styles
 import './styles/index.scss';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById('root')); // React 18
 root.render(
   <React.StrictMode>
     <BoardCtx>
-      <App />
+      <ModalCtx>
+        <App />
+      </ModalCtx>
     </BoardCtx>
   </React.StrictMode>
 );

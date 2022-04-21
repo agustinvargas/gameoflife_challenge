@@ -6,9 +6,9 @@ import Logo from '../Logo/Logo';
 const Header = () => {
   return (
     <div className='header-container'>
-      <MenuIcon icon={<AboutIcon />} isAbout={true} />
+      <MenuIcon icon={<AboutIcon />} type='about' />
       <Logo />
-      <MenuIcon icon={<SettingsIcon />} isSettings={true} />
+      <MenuIcon icon={<SettingsIcon />} type='settings' />
     </div>
   );
 };

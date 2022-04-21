@@ -14,9 +14,13 @@ import PatternOption from '../Pattern/PatternOption';
 import { patterns } from '../../utils/contents/patternsContent';
 import useBoard from '../../hooks/useBoard';
 import { generatesGrid } from '../../contexts/BoardCtx';
+import useModal from '../../hooks/useModal';
+import { createPortal } from 'react-dom';
 
-const Modal = ({ handleModal, isSettings, isAbout, isPattern }) => {
+const Modal = () => {
+  const { type, open, handleModal } = useModal(); // handle modal state
   const { initialValues, board, setBoard } = useBoard(); // handle board state
+
   const gridRef = useRef(); // handle the grid size
   const speedRef = useRef(); // handle the speed
 
@@ -50,109 +54,112 @@ const Modal = ({ handleModal, isSettings, isAbout, isPattern }) => {
     handleModal(); // Close the modal
   };
 
-  return (
-    <div
-      onClick={handleModal}
-      className='modal-container'
-      // Allow clicking outside of the modal to close it
-    >
+  if (open) {
+    return createPortal(
       <div
-        onClick={e => e.stopPropagation()} // Avoid closing the modal when clicking inside it (stop bubbling)
-        className='modal-content-container'
+        onClick={handleModal}
+        className='modal-container'
+        // Allow clicking outside of the modal to close it
       >
-        <div className='modal-content-container__header'>
-          <h2>
-            {isAbout && 'About Life'}
-            {isSettings && 'Settings'}
-            {isPattern && 'Examples of patterns'}
-          </h2>
-        </div>
-        <div className='modal-content-container__body'>
-          {isAbout && (
-            <>
-              {about.map((content, i) => (
-                <p key={i}>{content}</p>
-              ))}
-              <h3>Rules</h3>
-              <ol>
-                {rules.map((rule, i) => (
-                  <li key={i}>{rule}</li>
+        <div
+          onClick={e => e.stopPropagation()} // Avoid closing the modal when clicking inside it (stop bubbling)
+          className='modal-content-container'
+        >
+          <div className='modal-content-container__header'>
+            <h2>
+              {type === 'about' && 'About Life'}
+              {type === 'settings' && 'Settings'}
+              {type === 'pattern' && 'Examples of patterns'}
+            </h2>
+          </div>
+          <div className='modal-content-container__body'>
+            {type === 'about' && (
+              <>
+                {about.map((content, i) => (
+                  <p key={i}>{content}</p>
                 ))}
-              </ol>
-            </>
-          )}
+                <h3>Rules</h3>
+                <ol>
+                  {rules.map((rule, i) => (
+                    <li key={i}>{rule}</li>
+                  ))}
+                </ol>
+              </>
+            )}
 
-          {isSettings && (
-            <>
-              <h3 className='setting-title'>Execution time</h3>
-              <div className='content-select'>
-                <label htmlFor='speed'>
-                  <select
-                    id='speed'
-                    ref={speedRef}
-                    defaultValue={parseSettings()?.speed || board.speed}
-                  >
-                    {speedOpt?.map((option, i) => (
-                      <option key={i} value={option?.speed}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-              </div>
-              <h3 className='setting-title'>Grid size</h3>
-              <div className='content-select'>
-                <label htmlFor='grid'>
-                  <select
-                    id='grid'
-                    ref={gridRef}
-                    defaultValue={
-                      JSON.stringify(parseSettings()?.gridSize) || // object to string from localStorage
-                      JSON.stringify({ rows: board.rows, cols: board.cols }) // current or initial grid size
-                    }
-                  >
-                    {gridOpt?.map((option, i) => (
-                      <option key={i} value={JSON.stringify(option?.size)}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-              </div>
-            </>
-          )}
+            {type === 'settings' && (
+              <>
+                <h3 className='setting-title'>Execution time</h3>
+                <div className='content-select'>
+                  <label htmlFor='speed'>
+                    <select
+                      id='speed'
+                      ref={speedRef}
+                      defaultValue={parseSettings()?.speed || board.speed}
+                    >
+                      {speedOpt?.map((option, i) => (
+                        <option key={i} value={option?.speed}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                </div>
+                <h3 className='setting-title'>Grid size</h3>
+                <div className='content-select'>
+                  <label htmlFor='grid'>
+                    <select
+                      id='grid'
+                      ref={gridRef}
+                      defaultValue={
+                        JSON.stringify(parseSettings()?.gridSize) || // object to string from localStorage
+                        JSON.stringify({ rows: board.rows, cols: board.cols }) // current or initial grid size
+                      }
+                    >
+                      {gridOpt?.map((option, i) => (
+                        <option key={i} value={JSON.stringify(option?.size)}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                </div>
+              </>
+            )}
 
-          {isPattern &&
-            patterns.map((pattern, i) => (
-              <PatternOption
-                key={i}
-                title={pattern.title}
-                img={pattern.img}
-                description={pattern.description}
-              />
-            ))}
+            {type === 'pattern' &&
+              patterns.map((pattern, i) => (
+                <PatternOption
+                  key={i}
+                  title={pattern.title}
+                  img={pattern.img}
+                  description={pattern.description}
+                />
+              ))}
+          </div>
+          <div className='modal-content-container__footer'>
+            <button className='btn-danger' onClick={handleModal}>
+              <CloseIcon />
+              Close
+            </button>
+            {type === 'settings' && (
+              <>
+                <button onClick={handleResetSettings} className='btn-warning'>
+                  <ResetIcon />
+                  Reset
+                </button>
+                <button onClick={handleSaveSettings} className='btn-success'>
+                  <SaveIcon />
+                  Save
+                </button>
+              </>
+            )}
+          </div>
         </div>
-        <div className='modal-content-container__footer'>
-          <button className='btn-danger' onClick={handleModal}>
-            <CloseIcon />
-            Close
-          </button>
-          {isSettings && (
-            <>
-              <button onClick={handleResetSettings} className='btn-warning'>
-                <ResetIcon />
-                Reset
-              </button>
-              <button onClick={handleSaveSettings} className='btn-success'>
-                <SaveIcon />
-                Save
-              </button>
-            </>
-          )}
-        </div>
-      </div>
-    </div>
-  );
+      </div>,
+      document.getElementById('modal')
+    );
+  } else return null;
 };
 
 export default Modal;
