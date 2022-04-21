@@ -1,5 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { generatesGrid } from '../../contexts/BoardCtx';
+import React, { useCallback, useEffect } from 'react';
 import useBoard from '../../hooks/useBoard';
 import { arrayClone } from '../../utils/arrayClone';
 import { neighborsPositions } from '../../utils/neighborsPositions';
@@ -10,15 +9,8 @@ import RunningBtn from '../Controls/Running/RunningBtn';
 import SaveGameBtn from '../Controls/SaveGameBtn/SaveGameBtn';
 
 const Board = () => {
-  const {
-    isRunning,
-    setIsRunning,
-    isRunningRef,
-    isEmpty,
-    clearBoard,
-    board,
-    setBoard,
-  } = useBoard(); // Get the board state from the context
+  const { isRunning, setIsRunning, isRunningRef, isEmpty, board, setBoard } =
+    useBoard(); // Get the board state from the context
 
   // Handle the game logic
   const handleRunGame = () => {
@@ -86,74 +78,6 @@ const Board = () => {
     };
   }, [board.grid, board.speed, runGame, isRunning]);
 
-  const handlePattern = pattern => {
-    clearBoard();
-    pattern();
-  };
-
-  // const stillLifes = () => {
-  //   const centerRow = Math.floor(rows / 2); // Calculate the center row
-  //   const centerCol = Math.floor(cols / 2); // Calculate the center col
-
-  //   const stillLifeBoard = board.map((row, rowIndex) => {
-  //     // In this case, it is mapping the board to a new array
-  //     return row.map((cell, colIndex) => {
-  //       if (
-  //         (rowIndex === centerRow && colIndex === centerCol) ||
-  //         (rowIndex === centerRow + 1 && colIndex === centerCol + 1) ||
-  //         (rowIndex === centerRow + 1 && colIndex === centerCol) ||
-  //         (rowIndex === centerRow && colIndex === centerCol + 1)
-  //       ) {
-  //         return 1; // Set the cell to alive
-  //       }
-  //       return 0; // Set the cell to dead
-  //     });
-  //   });
-  //   setBoard(stillLifeBoard);
-  // };
-
-  // const oscillators = () => {
-  //   const centerRow = Math.floor(rows / 2); // Calculate the center row
-  //   const centerCol = Math.floor(cols / 2); // Calculate the center col
-
-  //   const oscillatorBoard = board.map((row, rowIndex) => {
-  //     // In this case, it is mapping the board to a new array
-  //     return row.map((cell, colIndex) => {
-  //       if (
-  //         (rowIndex === centerRow && colIndex === centerCol) ||
-  //         (rowIndex === centerRow + 1 && colIndex === centerCol) ||
-  //         (rowIndex === centerRow + 2 && colIndex === centerCol)
-  //       ) {
-  //         return 1;
-  //       }
-  //       return 0;
-  //     });
-  //   });
-  //   setBoard(oscillatorBoard);
-  // };
-
-  const spaceships = () => {
-    const centerRow = Math.floor(board.rows / 2); // Calculate the center row
-    const centerCol = Math.floor(board.cols / 2); // Calculate the center col
-
-    const spaceshipsBoard = board.grid.map((row, rowIndex) => {
-      // In this case, it is mapping the board to a new array
-      return row.map((cell, colIndex) => {
-        if (
-          (rowIndex === centerRow && colIndex === centerCol) ||
-          (rowIndex === centerRow + 1 && colIndex === centerCol) ||
-          (rowIndex === centerRow + 2 && colIndex === centerCol) ||
-          (rowIndex === centerRow + 2 && colIndex === centerCol - 1) ||
-          (rowIndex === centerRow + 1 && colIndex === centerCol - 2)
-        ) {
-          return 1;
-        }
-        return 0;
-      });
-    });
-    setBoard(prev => ({ ...prev, grid: spaceshipsBoard }));
-  };
-
   return (
     <main>
       {/* Controls  */}
@@ -163,7 +87,7 @@ const Board = () => {
           <ClearBtn />
         </div>
         <div className='controls-rigth'>
-          <PatternBtn handlePattern={() => handlePattern(spaceships)} />
+          <PatternBtn />
           <SaveGameBtn
             isRunningRef={isRunningRef}
             setIsRunning={setIsRunning}

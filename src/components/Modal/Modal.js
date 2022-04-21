@@ -11,15 +11,17 @@ import SaveIcon from '../Icons/SaveIcon';
 import ResetIcon from '../Icons/ResetIcon';
 import CloseIcon from '../Icons/CloseIcon';
 import PatternOption from '../Pattern/PatternOption';
-import { patterns } from '../../utils/contents/patternsContent';
+// import { patterns } from '../../utils/contents/patternsContent';
 import useBoard from '../../hooks/useBoard';
 import { generatesGrid } from '../../contexts/BoardCtx';
 import useModal from '../../hooks/useModal';
 import { createPortal } from 'react-dom';
+import { usePatterns } from '../../hooks/usePatterns';
 
 const Modal = () => {
   const { type, open, handleModal } = useModal(); // handle modal state
   const { initialValues, board, setBoard } = useBoard(); // handle board state
+  const patterns = usePatterns();
 
   const gridRef = useRef(); // handle the grid size
   const speedRef = useRef(); // handle the speed
@@ -134,6 +136,7 @@ const Modal = () => {
                   title={pattern.title}
                   img={pattern.img}
                   description={pattern.description}
+                  fc={pattern.fc}
                 />
               ))}
           </div>

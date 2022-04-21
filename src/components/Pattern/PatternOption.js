@@ -2,8 +2,15 @@ import React from 'react';
 import useModal from '../../hooks/useModal';
 import { SelectIcon } from '../Icons/SelectIcon';
 
-const PatternOption = ({ title, description, img }) => {
-  const { setOpenModal, openModal } = useModal(undefined);
+const PatternOption = ({ title, description, img, fc }) => {
+  const { handleModal } = useModal();
+
+  const handleSelection = fc => {
+    fc();
+
+    handleModal();
+  };
+
   return (
     <div className='pattern-container'>
       <div className='pattern_container__exp'>
@@ -13,7 +20,7 @@ const PatternOption = ({ title, description, img }) => {
       <div className='pattern-container__select'>
         <img src={img} alt={title} />
 
-        <span onClick={setOpenModal(!openModal)} className='icon-big'>
+        <span onClick={() => handleSelection(fc)} className='icon-big'>
           <SelectIcon />
         </span>
       </div>

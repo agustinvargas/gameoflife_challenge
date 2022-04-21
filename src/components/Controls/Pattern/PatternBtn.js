@@ -1,19 +1,18 @@
 import React from 'react';
 import PatternIcon from '../../Icons/PatternIcon';
-// import useModal from '../../../hooks/useModal';
+import useModal from '../../../hooks/useModal';
 
-const PatternBtn = ({ handlePattern }) => {
-  // const { handleModal, modal } = useModal({ isPattern: true });
+const PatternBtn = () => {
+  const { handleModal } = useModal();
 
   return (
     <>
-      <button onClick={handlePattern} className='btn-warning'>
+      <button onClick={() => handleModal('pattern')} className='btn-warning'>
         <>
           <PatternIcon />
           Patterns
         </>
       </button>
-      {/* {modal} */}
     </>
   );
 };
