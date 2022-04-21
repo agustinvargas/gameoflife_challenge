@@ -1,10 +1,12 @@
 import React from 'react';
 import { AiFillPlayCircle, AiFillStop } from 'react-icons/ai';
-const RunningBtn = ({ isRunning, runGame, disabled }) => {
+import useBoard from '../../../hooks/useBoard';
+const RunningBtn = ({ runGame }) => {
+  const { isRunning, isRunningRef, isEmpty } = useBoard();
   return (
     <button
       onClick={runGame}
-      disabled={disabled}
+      disabled={isEmpty && !isRunningRef.current}
       className={isRunning ? 'btn-danger' : 'btn-success'}
     >
       {isRunning ? (

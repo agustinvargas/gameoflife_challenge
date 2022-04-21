@@ -10,11 +10,15 @@ import RunningBtn from '../Controls/Running/RunningBtn';
 import SaveGameBtn from '../Controls/SaveGameBtn/SaveGameBtn';
 
 const Board = () => {
-  const { isEmpty, board, setBoard } = useBoard(); // Get the board state from the context
-
-  const [isRunning, setIsRunning] = useState(false); // Is the game running?
-  const isRunningRef = useRef(isRunning); // Ref to the isRunning state
-  isRunningRef.current = isRunning; // Set the running state to the ref
+  const {
+    isRunning,
+    setIsRunning,
+    isRunningRef,
+    isEmpty,
+    clearBoard,
+    board,
+    setBoard,
+  } = useBoard(); // Get the board state from the context
 
   // Handle the game logic
   const handleRunGame = () => {
@@ -27,6 +31,8 @@ const Board = () => {
 
   const runGame = useCallback(
     grid => {
+      // use callback to avoid memory leaks
+
       const boardClone = arrayClone(grid); // Clone the board for comparison and avoid mutating the original board. Avoid spread operator
 
       for (let originRow = 0; originRow < board.rows; originRow++) {
@@ -76,14 +82,14 @@ const Board = () => {
     }, board.speed);
 
     return () => {
-      clearInterval(interval); // Clear the interval when the component unmounts. Avoid memory leaks and unexpected behavior
+      clearInterval(interval); // Clear the interval when the comp<onent unmounts. Avoid memory leaks and unexpected behavior
     };
   }, [board.grid, board.speed, runGame, isRunning]);
 
-  // const handlePattern = pattern => {
-  //   resetBoard();
-  //   pattern();
-  // };
+  const handlePattern = pattern => {
+    clearBoard();
+    pattern();
+  };
 
   // const stillLifes = () => {
   //   const centerRow = Math.floor(rows / 2); // Calculate the center row
@@ -126,42 +132,38 @@ const Board = () => {
   //   setBoard(oscillatorBoard);
   // };
 
-  // const spaceships = () => {
-  //   const centerRow = Math.floor(rows / 2); // Calculate the center row
-  //   const centerCol = Math.floor(cols / 2); // Calculate the center col
+  const spaceships = () => {
+    const centerRow = Math.floor(board.rows / 2); // Calculate the center row
+    const centerCol = Math.floor(board.cols / 2); // Calculate the center col
 
-  //   const spaceshipsBoard = board.map((row, rowIndex) => {
-  //     // In this case, it is mapping the board to a new array
-  //     return row.map((cell, colIndex) => {
-  //       if (
-  //         (rowIndex === centerRow && colIndex === centerCol) ||
-  //         (rowIndex === centerRow + 1 && colIndex === centerCol) ||
-  //         (rowIndex === centerRow + 2 && colIndex === centerCol) ||
-  //         (rowIndex === centerRow + 2 && colIndex === centerCol - 1) ||
-  //         (rowIndex === centerRow + 1 && colIndex === centerCol - 2)
-  //       ) {
-  //         return 1;
-  //       }
-  //       return 0;
-  //     });
-  //   });
-  //   setBoard(spaceshipsBoard);
-  // };
+    const spaceshipsBoard = board.grid.map((row, rowIndex) => {
+      // In this case, it is mapping the board to a new array
+      return row.map((cell, colIndex) => {
+        if (
+          (rowIndex === centerRow && colIndex === centerCol) ||
+          (rowIndex === centerRow + 1 && colIndex === centerCol) ||
+          (rowIndex === centerRow + 2 && colIndex === centerCol) ||
+          (rowIndex === centerRow + 2 && colIndex === centerCol - 1) ||
+          (rowIndex === centerRow + 1 && colIndex === centerCol - 2)
+        ) {
+          return 1;
+        }
+        return 0;
+      });
+    });
+    setBoard(prev => ({ ...prev, grid: spaceshipsBoard }));
+  };
 
   return (
     <main>
       {/* Controls  */}
       <div className='controls-container'>
         <div className='controls-left'>
-          <RunningBtn
-            runGame={handleRunGame}
-            disabled={isEmpty && !isRunningRef.current}
-            isRunning={isRunning}
-          />
-          <ClearBtn isRunningRef={isRunningRef} setIsRunning={setIsRunning} />
+          <RunningBtn runGame={handleRunGame} />
+          <ClearBtn />
         </div>
         <div className='controls-rigth'>
-          {/* <PatternBtn stillLifes={() => handlePattern(spaceships)} /> */}
+          <PatternBtn handlePattern={() => handlePattern(spaceships)} />
           <SaveGameBtn
             isRunningRef={isRunningRef}
             setIsRunning={setIsRunning}

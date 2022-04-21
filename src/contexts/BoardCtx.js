@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useEffect, useRef, useState } from 'react';
 import { parseSettings } from '../utils/parseSettings';
 import {
   defaultGeneration,
@@ -27,6 +27,21 @@ const BoardCtx = ({ children }) => {
 
   const isEmpty = board?.grid?.every(row => row.every(cell => cell === 0)); // Check if the board is empty
 
+  const [isRunning, setIsRunning] = useState(false); // Is the game running?
+  const isRunningRef = useRef(isRunning); // Ref to the isRunning state
+  isRunningRef.current = isRunning; // Set the running state to the ref
+
+  // Reset the board
+  const clearBoard = () => {
+    isRunningRef.current = false;
+    setIsRunning(false); // Stop the game
+    setBoard({
+      ...board,
+      grid: generatesGrid(board.rows, board.cols, 0),
+      generation: defaultGeneration, // Reset the generation
+    });
+  };
+
   useEffect(() => {
     const hasGameSaved = localStorage.getItem('board');
     const hasCustomSettings = localStorage.getItem('settings');
@@ -50,7 +65,18 @@ const BoardCtx = ({ children }) => {
 
   // Pass the board state to the context
   return (
-    <BoardContext.Provider value={{ initialValues, isEmpty, board, setBoard }}>
+    <BoardContext.Provider
+      value={{
+        isRunning,
+        setIsRunning,
+        isRunningRef,
+        initialValues,
+        isEmpty,
+        clearBoard,
+        board,
+        setBoard,
+      }}
+    >
       {children}
     </BoardContext.Provider>
   );
