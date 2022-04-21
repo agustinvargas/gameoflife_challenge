@@ -1,0 +1,33 @@
+@import 'variables';
+@import 'board';
+@import 'texts';
+@import 'buttons';
+@import 'modal';
+@import 'header';
+@import 'icons';
+@import 'inputs';
+
+body {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  background-color: $dark-color;
+  font-family: $primary-font;
+  line-height: 1.5;
+  color: $light-color;
+}
+
+body::after {
+  content: '';
+  position: absolute;
+  background-image: url('https://scitechdaily.com/images/Alfalfa-Sprouts-Growth-Timelapse.gif');
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  top: 0;
+  bottom: 0;
+  opacity: 0.15;
+  width: 100%;
+  z-index: -1;
+}
