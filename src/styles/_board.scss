@@ -1,0 +1,136 @@
+.cell {
+  width: 15px;
+  height: 15px;
+  // margin: 1px;
+  border-radius: 50%;
+  cursor: pointer;
+  &.alive {
+    background-color: $primary-color;
+  }
+  &.dead {
+    background-color: #dbdbdb;
+  }
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+.grid-wrapper {
+  margin: 10px auto;
+  padding: 0 25px;
+  position: relative;
+  & > div {
+    display: grid;
+    margin: auto;
+    align-items: center;
+    justify-content: center;
+  }
+  &.isSmall {
+    min-height: fit-content;
+
+    & > div {
+      width: fit-content;
+      grid-template-columns: repeat(30, 15px);
+      justify-content: center;
+      gap: 5px;
+      align-items: center;
+    }
+  }
+  &.isDefault {
+    min-height: fit-content;
+    & > div {
+      width: fit-content;
+      grid-template-columns: repeat(50, 15px);
+      gap: 5px;
+    }
+  }
+  &.isBig {
+    min-height: fit-content;
+    width: fit-content;
+    & > div {
+      grid-template-columns: repeat(70, 15px);
+      gap: 5px;
+    }
+  }
+}
+
+.grid-overlow {
+  overflow: auto;
+}
+
+.controls-container {
+  max-width: 800px;
+  padding: 15px;
+  flex-wrap: wrap;
+  gap: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 30px auto;
+  & .controls-left,
+  .controls-rigth {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 10px;
+  }
+}
+
+.generation {
+  display: block;
+  text-transform: uppercase;
+  text-align: center;
+  margin: 12px auto;
+  & span {
+    color: $primary-color;
+  }
+}
+
+.controls-container {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  & .controls-left,
+  .controls-rigth {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .grid-wrapper {
+    &.isSmall {
+      perspective: 300px;
+      min-height: 400px;
+      & > div {
+        transform: rotateX(25deg) rotateY(0deg);
+      }
+    }
+    &.isDefault {
+      perspective: 300px;
+      min-height: 750px;
+      & > div {
+        transform: rotateX(9deg) rotateY(0deg);
+      }
+    }
+  }
+  .controls-container {
+    max-width: 800px;
+    padding: 15px;
+    flex-wrap: wrap;
+    gap: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 30px auto;
+    & .controls-left,
+    .controls-rigth {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      gap: 10px;
+    }
+  }
+}
