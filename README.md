@@ -12,7 +12,7 @@ The Game of Life, also known simply as Life, is a cellular automaton devised by 
 
 In the project directory, you can run:
 
-### npm start
+### npm install
 
 Install dependencies.
 
