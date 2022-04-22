@@ -1,4 +1,5 @@
 import Board from './components/Board/Board';
+import Footer from './components/Footer/Footer';
 import Header from './components/Header/Header';
 
 function App() {
@@ -6,6 +7,7 @@ function App() {
     <>
       <Header />
       <Board />
+      <Footer />
     </>
   );
 }

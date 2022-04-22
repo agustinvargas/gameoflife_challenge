@@ -1,0 +1,6 @@
+.footer {
+  text-align: center;
+  & small a {
+    color: $secondary-color;
+  }
+}
