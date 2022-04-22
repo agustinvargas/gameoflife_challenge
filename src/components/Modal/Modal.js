@@ -1,22 +1,16 @@
 import React, { useRef } from 'react';
-import { about, rules } from '../../utils/aboutContent';
+import { about, rules } from '../../utils/contents/aboutContent';
 import { parseSettings } from '../../utils/parseSettings';
-import {
-  gridOpt,
-  regularGrid,
-  regularSpeed,
-  speedOpt,
-} from '../../utils/settingsContent';
+import { gridOpt, speedOpt } from '../../utils/contents/settingsContent';
 import SaveIcon from '../Icons/SaveIcon';
 import ResetIcon from '../Icons/ResetIcon';
 import CloseIcon from '../Icons/CloseIcon';
 import PatternOption from '../Pattern/PatternOption';
-// import { patterns } from '../../utils/contents/patternsContent';
 import useBoard from '../../hooks/useBoard';
-import { generatesGrid } from '../../contexts/BoardCtx';
 import useModal from '../../hooks/useModal';
 import { createPortal } from 'react-dom';
 import { usePatterns } from '../../hooks/usePatterns';
+import { generatesGrid } from '../../utils/generatesGrid';
 
 const Modal = () => {
   const { type, open, handleModal } = useModal(); // handle modal state

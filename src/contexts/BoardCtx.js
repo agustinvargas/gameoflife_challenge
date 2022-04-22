@@ -4,14 +4,10 @@ import {
   defaultGeneration,
   regularGrid,
   regularSpeed,
-} from '../utils/settingsContent';
+} from '../utils/contents/settingsContent';
+import { generatesGrid } from '../utils/generatesGrid';
 
 export const BoardContext = createContext({});
-
-export const generatesGrid = (rows, cols, fill) =>
-  Array(rows)
-    .fill()
-    .map(() => Array(cols).fill(fill));
 
 const BoardCtx = ({ children }) => {
   const initialValues = {
