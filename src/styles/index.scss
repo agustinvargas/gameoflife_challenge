@@ -6,6 +6,7 @@
 @import 'header';
 @import 'icons';
 @import 'inputs';
+@import 'footer';
 
 body {
   position: relative;
@@ -20,7 +21,7 @@ body {
 body::after {
   content: '';
   position: absolute;
-  background-image: url('https://scitechdaily.com/images/Alfalfa-Sprouts-Growth-Timelapse.gif');
+  background-image: url('https://res.cloudinary.com/dp2no7dm6/image/upload/v1650600253/game%20of%20life/Alfalfa-Sprouts-Growth-Timelapse_hra2kx.gif');
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
